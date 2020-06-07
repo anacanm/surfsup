@@ -10,6 +10,7 @@ defmodule BuoyCollection.Parser do
     |> clean_row_data()
     |> inject_keys_into_row_data()
     |> keys_and_data_to_struct()
+    |> convert_meters_to_feet()
   end
 
   # ! make all functions below this line private
@@ -30,6 +31,14 @@ defmodule BuoyCollection.Parser do
   def keys_and_data_to_struct(buoy_data_with_keys) do
     struct(BuoyCollection.BuoyData, buoy_data_with_keys)
   end
+
+  @spec convert_meters_to_feet(%BuoyData{}) :: %BuoyData{}
+  def convert_meters_to_feet(buoy_data = %BuoyData{wave_height: wh, swell_height: sh, wind_wave_height: wwh}) do
+    %BuoyData{buoy_data | wave_height: to_feet(wh), swell_height: to_feet(sh), wind_wave_height: to_feet(wwh)}
+  end
+
+  @spec to_feet(number) :: float
+  def to_feet(value), do: Float.round(value * 3.28084, 3)
 
   def atom_keys do
     [
