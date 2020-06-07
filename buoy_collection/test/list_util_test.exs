@@ -16,4 +16,11 @@ defmodule ListUtilTest do
     assert ListUtil.list_to_map(["a", 1, "b", 2]) == %{"a" => 1, "b" => 2}
     assert ListUtil.list_to_map(["a", 1, "b"], "test_default") == %{"a" => 1, "b" => "test_default"}
   end
+
+  test "flatten_list_of_tuples" do
+    assert ListUtil.flatten_list_of_tuples([]) == []
+    assert ListUtil.flatten_list_of_tuples([{:a}]) == [:a]
+    assert ListUtil.flatten_list_of_tuples([{:a,:b}, {:c}]) == [:a, :b, :c]
+    assert ListUtil.flatten_list_of_tuples([{:a,:b}, {:c, :d}]) == [:a, :b, :c, :d]
+  end
 end

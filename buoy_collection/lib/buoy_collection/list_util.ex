@@ -20,4 +20,11 @@ defmodule BuoyCollection.ListUtil do
   def list_to_map([a, b | tail], default, acc), do: list_to_map(tail, default, [{a, b} | acc])
   def list_to_map([a | tail], default, acc), do: list_to_map(tail, default, [{a, default} | acc])
   def list_to_map(_, _, acc), do: Map.new(acc)
+
+  @spec flatten_list_of_tuples(list, any) :: list
+  def flatten_list_of_tuples(list, acc \\ [])
+
+  def flatten_list_of_tuples([{a, b} | tail], acc), do: flatten_list_of_tuples(tail, [acc | [a, b]])
+  def flatten_list_of_tuples([{head} | tail], acc), do: flatten_list_of_tuples(tail, [acc | [head]])
+  def flatten_list_of_tuples([], acc), do: List.flatten(acc)
 end
