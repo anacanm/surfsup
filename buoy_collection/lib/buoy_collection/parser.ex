@@ -4,10 +4,10 @@ defmodule BuoyCollection.Parser do
   @doc """
   parse_row_to_map(row_data) takes a string of row data from the response, and parses its values into a BuoyData struct
   """
-  @spec parse_row_to_struct(String.t()) :: %BuoyData{}
-  def parse_row_to_struct(row_data) do
+  @spec parse_row_to_struct(String.t(), String.t()) :: %BuoyData{}
+  def parse_row_to_struct(row_data, buoy_name) do
     row_data
-    |> clean_row_data()
+    |> clean_row_data(buoy_name)
     |> inject_keys_into_row_data()
     |> keys_and_data_to_struct()
     |> parse_numbers()
@@ -16,9 +16,9 @@ defmodule BuoyCollection.Parser do
 
   ####################################################
 
-  @spec clean_row_data(String.t()) :: list
-  defp clean_row_data(row_data) do
-    row_data
+  @spec clean_row_data(String.t(), String.t()) :: list
+  defp clean_row_data(row_data, buoy_name) do
+    ("#{buoy_name} " <> row_data)
     |> String.split(" ")
     |> Enum.filter(fn elem -> elem != "" end)
   end
@@ -43,6 +43,7 @@ defmodule BuoyCollection.Parser do
 
   defp atom_keys do
     [
+      :buoy_name,
       :year,
       :month,
       :day,

@@ -6,7 +6,7 @@ defmodule BuoyCollection.Fetcher do
     request!(buoy_id!(buoy_name))
     |> response_to_list()
     |> buoy_data_without_headers(100)
-    |> buoy_data_to_list_of_structs()
+    |> buoy_data_to_list_of_structs(buoy_name)
   end
 
   ###############################################################################
@@ -27,10 +27,10 @@ defmodule BuoyCollection.Fetcher do
     buoy_data |> Enum.slice(2, num_elements)
   end
 
-  @spec buoy_data_to_list_of_structs(list(Strint.t())) :: list(%BuoyData{})
-  defp buoy_data_to_list_of_structs(buoy_data) do
-    buoy_data
-    |> Enum.map(&Parser.parse_row_to_struct/1)
+  @spec buoy_data_to_list_of_structs(list(Strint.t()), String.t()) :: list(%BuoyData{})
+  defp buoy_data_to_list_of_structs(buoy_data, buoy_name) do
+    buoy_name = String.replace(buoy_name, " ", "_")
+    Enum.map(buoy_data, fn row -> Parser.parse_row_to_struct(row, buoy_name) end)
   end
 
   defp buoy_id!(buoy_name) do
