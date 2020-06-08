@@ -1,5 +1,6 @@
 defmodule BuoyCollection.BuoyData do
-  defstruct year: nil,
+  defstruct buoy_name: nil,
+            year: nil,
             month: nil,
             day: nil,
             hour: nil,
