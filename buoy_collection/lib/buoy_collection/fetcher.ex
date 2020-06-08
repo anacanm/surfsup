@@ -9,32 +9,31 @@ defmodule BuoyCollection.Fetcher do
     |> buoy_data_to_list_of_structs()
   end
 
-  # ! make functions below this line private
+  ###############################################################################
   @spec request!(integer) :: String.t()
-  def request!(buoy_id) do
-    %HTTPoison.Response{body: body} =
-      HTTPoison.get!("https://www.ndbc.noaa.gov/data/realtime2/#{buoy_id}.spec")
+  defp request!(buoy_id) do
+    %HTTPoison.Response{body: body} = HTTPoison.get!("https://www.ndbc.noaa.gov/data/realtime2/#{buoy_id}.spec")
 
     body
   end
 
   @spec response_to_list(String.t()) :: list(String.t())
-  def response_to_list(response) do
+  defp response_to_list(response) do
     response |> String.split("\n")
   end
 
   @spec buoy_data_without_headers(list(String.t()), integer) :: list(String.t())
-  def buoy_data_without_headers(buoy_data, num_elements) do
+  defp buoy_data_without_headers(buoy_data, num_elements) do
     buoy_data |> Enum.slice(2, num_elements)
   end
 
   @spec buoy_data_to_list_of_structs(list(Strint.t())) :: list(%BuoyData{})
-  def buoy_data_to_list_of_structs(buoy_data) do
+  defp buoy_data_to_list_of_structs(buoy_data) do
     buoy_data
     |> Enum.map(&Parser.parse_row_to_struct/1)
   end
 
-  def buoy_id!(buoy_name) do
+  defp buoy_id!(buoy_name) do
     buoys = %{"santa monica bay" => 46221}
 
     buoy_name =
