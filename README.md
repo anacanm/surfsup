@@ -1,1 +1,2 @@
-# surfsup
+# Surf's Up
+Surf's Up is an application with a web interface for me and my surfer friends to have streamlined surf forecasts. Using buoy data from [NOAA's NDBC](https://www.ndbc.noaa.gov/), a forecast for local surf-spots is calculated, and saved to a short-term cache and a persisting database early each morning. These forecasts are compared against qualifications to determine which surf spot will be performing well that day so that each user receives a text notification describing which of their preferred surf spots are going well. 
